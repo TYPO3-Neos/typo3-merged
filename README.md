@@ -37,6 +37,12 @@ For speed improvements, we're keeping a full clone for each branch at
 	git clone git://git.typo3.org/Packages/TYPO3.CMS.git TYPO3_4-7
 	git clone git://git.typo3.org/Packages/TYPO3.CMS.git TYPO3_4-5
 
+TYPO3 Neos
+----------
+
+    ./setup-neos-checkout.sh
+    php check-changes.php neos-base-dist.php
+
 Gerrit access
 -------------
 

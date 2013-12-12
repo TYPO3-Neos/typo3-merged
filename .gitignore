@@ -6,3 +6,6 @@
 .idea
 update-changes.sh
 .DS_Store
+/composer.phar
+/Neos-master/
+/Neos-1.0/
