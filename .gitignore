@@ -9,3 +9,7 @@ update-changes.sh
 /composer.phar
 /Neos-master/
 /Neos-1.0/
+/Flow-master/
+/Flow-2.X/
+/FLOW3-1.0/
+/FLOW3-1.1/
