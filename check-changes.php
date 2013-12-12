@@ -375,7 +375,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= "<th>Release</th>\n";
 
 	// Prepare the per-release outputs
-	if ($projectData['perReleaseOutput']) {
+	if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']) {
 		foreach ($releasesToCheck as $releaseRange) {
 			$releaseName = $releaseRange[0];
 			if (isset($projectData['mapBranchReleaseFunction'])) {
@@ -573,7 +573,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 			}
 		}
 
-		if ($projectData['perReleaseOutput']
+		if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']
 			&& $uniqueNewFeatureRelease
 		) {
 			$outRelease[$uniqueNewFeatureRelease] .= "<tr>";
@@ -605,7 +605,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= '</ul>';
 
 	// Prepare the per-release outputs
-	if ($projectData['perReleaseOutput']) {
+	if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']) {
 		foreach ($outRelease as $releaseName => $outLines) {
 			$outLines .= "</body></html>";
 			$fh = fopen(sprintf($projectData['perReleaseOutput'], $releaseName), 'w');
