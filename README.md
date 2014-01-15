@@ -43,6 +43,12 @@ TYPO3 Neos
     ./setup-neos-checkout.sh
     php check-changes.php neos-base-dist.php
 
+TYPO3 Flow
+----------
+
+    ./setup-flow-checkout.sh
+    php check-changes.php flow-base-dist.php
+
 Gerrit access
 -------------
 
