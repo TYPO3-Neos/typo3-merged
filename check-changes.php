@@ -234,6 +234,9 @@ foreach ($projectsToCheck as $project => $projectData) {
 						$bodyInfo[0] = 'Resolves';
 					}
 					switch ($bodyInfo[0]) {
+					    case 'Change-Id':
+					        $commitInfos['changeId'] = trim($bodyInfo[1]);
+					        break;
 						case 'Resolves':
 						case 'Resolve':
 						case 'Fixes':
@@ -331,7 +334,11 @@ foreach ($projectsToCheck as $project => $projectData) {
 	foreach ($commits as $branch => $commitInfos) {
 		foreach ($commitInfos as $commit) {
 			if (!isset($commit['issues'])) {
-				continue;
+			    if (isset($commit['changeId'])) {
+				    $commit['issues'] = array($commit['changeId']);
+				} else {
+    				continue;
+    			}
 			}
 			foreach ($commit['issues'] as $issue) {
 				$thisDate = strtotime($commit['date']);
@@ -379,7 +386,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= "<th>Release</th>\n";
 
 	// Prepare the per-release outputs
-	if ($projectData['perReleaseOutput']) {
+	if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']) {
 		foreach ($releasesToCheck as $releaseRange) {
 			$releaseName = $releaseRange[0];
 			if (isset($projectData['mapBranchReleaseFunction'])) {
@@ -436,9 +443,14 @@ foreach ($projectsToCheck as $project => $projectData) {
 			$reviewLink = sprintf($reviewLinkPattern, $match[1]);
 		} elseif (preg_match('/^#M(\d+)/', $issueNumber, $match)) {
 			$issueLink = sprintf('http://bugs.typo3.org/view.php?id=%s', $match[1]);
+		} elseif (preg_match('/^(I[0-9a-f]+)/', $issueNumber, $match)) {
+			$reviewLink = sprintf('http://review.typo3.org/#/q/%s,n,z', $match[1]);
+			#$reviewLink = sprintf($reviewLinkPattern, $match[1]);
 		}
 		$topic = substr($issueNumber, 1);
-		$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
+		if (!empty($issueLink)) {
+    		$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
+    	}
 
 		// Find out unique target releases (for new features):
 		$targetReleases = array();
@@ -577,7 +589,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 			}
 		}
 
-		if ($projectData['perReleaseOutput']
+		if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']
 			&& $uniqueNewFeatureRelease
 		) {
 			$outRelease[$uniqueNewFeatureRelease] .= "<tr>";
@@ -609,7 +621,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= '</ul>';
 
 	// Prepare the per-release outputs
-	if ($projectData['perReleaseOutput']) {
+	if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']) {
 		foreach ($outRelease as $releaseName => $outLines) {
 			$outLines .= "</body></html>";
 			$fh = fopen(sprintf($projectData['perReleaseOutput'], $releaseName), 'w');
