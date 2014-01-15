@@ -383,7 +383,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= "<h2>$project</h2>\n";
 	$out .= "<table>\n";
 	$out .= "<tr>\n";
-	$out .= "<th>Release</th>\n";
+	$out .= "<th>Issue / Release</th>\n";
 
 	// Prepare the per-release outputs
 	if (isset($projectData['perReleaseOutput']) && $projectData['perReleaseOutput']) {
@@ -444,8 +444,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 		} elseif (preg_match('/^#M(\d+)/', $issueNumber, $match)) {
 			$issueLink = sprintf('http://bugs.typo3.org/view.php?id=%s', $match[1]);
 		} elseif (preg_match('/^(I[0-9a-f]+)/', $issueNumber, $match)) {
-			$reviewLink = sprintf('http://review.typo3.org/#/q/%s,n,z', $match[1]);
-			#$reviewLink = sprintf($reviewLinkPattern, $match[1]);
+			$reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $match[1]);
 		}
 		$topic = substr($issueNumber, 1);
 		if (!empty($issueLink)) {
@@ -633,7 +632,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 }
 
 date_default_timezone_set('Europe/Berlin');
-$out .= sprintf('<p>Generated on %s. Based on check-changes.php by <a href="mailto:ernst@cron-it.de">Ernesto Baschny</a>, extended by <a href="mailto:karsten.dambekalns@typo3.org">Karsten Dambekalns</a> and <a href="mailto:mario.rimann@typo3.org">Mario Rimann</a></p>', strftime('%c', time()));
+$out .= sprintf('<p>Generated on %s. Based on check-changes.php by <a href="mailto:ernst@cron-it.de">Ernesto Baschny</a>, extended by <a href="mailto:karsten.dambekalns@typo3.org">Karsten Dambekalns</a>,  <a href="mailto:sebastian.kurfuerst@typo3.org">Sebastian Kurfürst</a> and <a href="mailto:mario.rimann@typo3.org">Mario Rimann</a></p>', strftime('%c', time()));
 
 // include JS stuff
 $out .= '<script src="jquery-1.7.2.min.js"></script>';
@@ -642,8 +641,6 @@ $out .= '<script src="typo3-merged.js"></script>';
 
 $out .= "</body></html>";
 
-$fh = fopen($htmlFile, 'w');
-fwrite($fh, $out);
-fclose($fh);
+file_put_contents($htmlFile, $out);
 
 ?>
