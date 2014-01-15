@@ -3,7 +3,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011-2012 Ernesto Baschny (ernst@cron-it.de>
+*  (c) 2011-2013 Ernesto Baschny (ernst@cron-it.de>
 *  (c) 2011-2012 Karsten Dambekalns <karsten@typo3.org>
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,10 +38,14 @@ if (isset($argv[1]) && file_exists($argv[1])) {
 	exit(1);
 }
 
+// Check gerrit and pull from git before doing the work
+$online = TRUE;
+
 // %s = GIT_DIR
 // %s = 4-5-0 (first release)
 // %s = 4-5 (current state)
-$cmdGitLog = 'GIT_DIR="%s" git log %s..%s --submodule --pretty=format:hash:%%h%%x01date:%%cd%%x01tags:%%d%%x01subject:%%s%%x01body:%%b%%x0a--COMMIT-- --date=iso';
+// %s = additional git params, if desired (i.e. --dirstat)
+$cmdGitLog = 'GIT_DIR="%s" git log %s..%s%s --submodule --pretty=format:hash:%%h%%x01hashfull:%%H%%x01date:%%cd%%x01tags:%%d%%x01subject:%%s%%x01body:%%b%%x0a--COMMIT-- --date=iso';
 
 // Requires that ssh is allowed to gerrit (private key)
 $cmdGerrit = 'ssh review.typo3.org -p 29418 gerrit query --format json status:open project:%s';
@@ -123,6 +127,33 @@ function compareIssues($a, $b) {
 	return ($a > $b) ? -1 : 1;
 }
 
+function branchToRelease($projectName, $branchName) {
+	global $projectsToCheck;
+	static $releaseMapping = array();
+	if (empty($releaseMapping)) {
+		foreach ($projectsToCheck as $project => $projectData) {
+			foreach ($projectData['releases'] as $releaseRange) {
+				$release = $releaseRange[0];
+				$branch = $releaseRange[2];
+				$releaseMapping[$project][$branch] = $release;
+			}
+		}
+	}
+	return $releaseMapping[$projectName][$branchName];
+}
+
+function isValidRelease($project, $releaseName) {
+	global $projectsToCheck;
+	static $validReleases = array();
+	if (empty($validReleases)) {
+		foreach ($projectsToCheck[$project]['releases'] as $releaseRange) {
+			$release = $releaseRange[0];
+			$validReleases[$release] = TRUE;
+		}
+	}
+	return isset($validReleases[$releaseName]);
+}
+
 $out = '<html><head><title>Merged issues in releases</title><link rel="stylesheet" type="text/css" href="styles.css" /></head>';
 $out .= "<body>\n";
 $out .= "<h1>Issues merged into releases</h1>\n";
@@ -133,13 +164,21 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$releasesToCheck = $projectData['releases'];
 	echo 'Working on ' . $project . ' now.' . PHP_EOL;
 	$gerritIssues = array();
-	if (isset($projectData['gerritProject'])) {
-		$gerritIssues = fetchGerritReviewRequests($projectData['gerritProject']);
-	} else {
-		$urlParts = parse_url($projectData['gitWebUrl']);
-		$gerritProject = ltrim(substr($urlParts['path'], 0, -4), '/');
-		$gerritIssues = fetchGerritReviewRequests($gerritProject);
+	$revertedCommits = array();
+	$urlParts = parse_url($projectData['gitWebUrl']);
+	$gerritProject = ltrim(substr($urlParts['path'], 0, -4), '/');
+	if ($online) {
+		if (isset($projectData['gerritProject'])) {
+			$gerritIssues = fetchGerritReviewRequests($projectData['gerritProject']);
+		} else {
+			$gerritIssues = fetchGerritReviewRequests($gerritProject);
+		}
 	}
+	$additionalGitParams = '';
+	if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
+		$additionalGitParams = ' --dirstat';
+	}
+
 	foreach ($releasesToCheck as $releaseRange) {
 		$startCommit = $releaseRange[1];
 		$branch = $releaseRange[2];
@@ -150,20 +189,22 @@ foreach ($projectsToCheck as $project => $projectData) {
 			$oldDir = getcwd();
 			chdir($gitRoot . $releaseRange[3]);
 		}
-		$output = array();
-		exec('GIT_DIR="' . $GIT_DIR . '" git fetch --all --tags', $output, $exitCode);
-		if ($exitCode !== 0) {
-			exit($exitCode);
+		if ($online) {
+			$output = array();
+			exec('GIT_DIR="' . $GIT_DIR . '" git fetch --all --tags', $output, $exitCode);
+			if ($exitCode !== 0) {
+				exit($exitCode);
+			}
+			exec('GIT_DIR="' . $GIT_DIR . '" git reset --hard ' . $branch, $output, $exitCode);
+			if ($exitCode !== 0) {
+				exit($exitCode);
+			}
+			$output = array();
+			exec('GIT_DIR="' . $GIT_DIR . '" git submodule update --init');
 		}
-		exec('GIT_DIR="' . $GIT_DIR . '" git reset --hard ' . $branch, $output, $exitCode);
-		if ($exitCode !== 0) {
-			exit($exitCode);
-		}
-		$output = array();
-		exec('GIT_DIR="' . $GIT_DIR . '" git submodule update --init');
 
 		$lastHash[$branch] = '';
-		$gitLogCmd = sprintf($cmdGitLog, $GIT_DIR, $startCommit, $branch);
+		$gitLogCmd = sprintf($cmdGitLog, $GIT_DIR, $startCommit, $branch, $additionalGitParams);
 		$output = array();
 		exec($gitLogCmd, $output, $exitCode);
 		if ($gitRootIsWorkingCopy) {
@@ -179,14 +220,32 @@ foreach ($projectsToCheck as $project => $projectData) {
 		foreach ($output as $line) {
 			if ($line === '--COMMIT--') {
 				// Last line
+				$revertCommit = FALSE;
 				foreach (explode("\n", $commitInfos['body']) as $bodyLine) {
+					if (preg_match('/This reverts commit (\w+)/', $bodyLine, $match)) {
+						$revertCommit = $match[1];
+					}
 					$bodyInfo = explode(':', $bodyLine, 2);
-					switch (trim($bodyInfo[0])) {
+					// Fix switched Resolves / Release entries
+					$bodyInfo[0] = trim($bodyInfo[0]);
+					if ($bodyInfo[0] == 'Resolves' && preg_match('/^\s*\d\.\d$/', $bodyInfo[1])) {
+						$bodyInfo[0] = 'Releases';
+					} elseif ($bodyInfo[0] == 'Releases' && preg_match('/^\s*#\d+$/', $bodyInfo[1])) {
+						$bodyInfo[0] = 'Resolves';
+					}
+					switch ($bodyInfo[0]) {
 						case 'Resolves':
+						case 'Resolve':
 						case 'Fixes':
+						case 'Fixs':
 							$issues = explode(',', $bodyInfo[1]);
 							foreach ($issues as $issue) {
 								$issue = trim($issue);
+								// Only use the numbers after the "#" (in case of buggy lines)
+								$issue = preg_replace('/^(#[0-9]+).*$/', '$1', $issue);
+								if (intval($issue)) {
+									$issue = '#' . $issue;
+								}
 								if (isset($issueMapping[$issue])) {
 									$issue = $issueMapping[$issue];
 								}
@@ -198,6 +257,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 						case 'Tested-by':
 							break;
 						case 'Releases':
+						case 'ReleaseS':
 						case 'Release':
 							foreach (explode(',', $bodyInfo[1]) as $release) {
 								if (trim($release) != '') {
@@ -218,20 +278,49 @@ foreach ($projectsToCheck as $project => $projectData) {
 					$inRelease = $releaseCommit;
 				}
 				$commitInfos['inRelease'] = ( $inRelease ? $inRelease : 'next' );
+				$commitInfos['reverted'] = FALSE;
+				if (isset($revertedCommits[$commitInfos['hashfull']])) {
+					// This commit was reverted, keep a pointer to the reversal
+					$commitInfos['reverted'] = $revertedCommits[$commitInfos['hashfull']];
+				}
 				$commits[$branch][] = $commitInfos;
+				if ($revertCommit != '') {
+					// Remember this commit which revertes some commit that is yet to come
+					$revertedCommits[$revertCommit] = $commitInfos;
+				}
 				$commitInfos = array();
 				continue;
 			}
 
-			$infos = explode("\x01", $line);
-			if (count($infos) === 1) {
-				// Continuation line
-				$commitInfos[$currentField] .= "\n" . $line;
-			} else {
-				foreach ($infos as $info) {
-					list($field, $value) = explode(':', $info, 2);
-					$currentField = $field;
-					$commitInfos[$field] = $value;
+			if (preg_match('/^\s+([\d\.]+)%\s+(.*)/', $line, $matches)) {
+				$percent = $matches[1];
+				$path = $matches[2];
+				// Is a --dirstat line, format:
+				//  100.0% typo3/sysext/dbal/
+				//   42.5% typo3/sysext/extbase/Classes/MVC/Controller/
+				// ....
+				// Unfortulately these refer to the *previous* log entry
+				$component = '';
+				if ($projectData['extractComponentNameFromPathByBranchCallback']) {
+					$component = $projectData['extractComponentNameFromPathByBranchCallback'](branchToRelease($project, $branch), $path);
+				}
+				if ($component) {
+					if (!isset($commits[$branch][count($commits[$branch])-1]['components'][$component])) {
+						$commits[$branch][count($commits[$branch])-1]['components'][$component] = 0;
+					}
+					$commits[$branch][count($commits[$branch])-1]['components'][$component] += $percent;
+				}
+			} else if ($line != '') {
+				$infos = explode("\x01", $line);
+				if (count($infos) === 1) {
+					// Continuation line
+					$commitInfos[$currentField] .= "\n" . $line;
+				} else {
+					foreach ($infos as $info) {
+						list($field, $value) = explode(':', $info, 2);
+						$currentField = $field;
+						$commitInfos[$field] = $value;
+					}
 				}
 			}
 		}
@@ -258,10 +347,16 @@ foreach ($projectsToCheck as $project => $projectData) {
 					'hash' => $commit['hash'],
 					'subject' => $commit['subject'],
 					'inRelease' => $commit['inRelease'],
+					'reverted' => $commit['reverted'],
 				);
+				if (isset($commit['components'])) {
+					$issueInfo[$issue]['solved'][$branch]['components'] = $commit['components'];
+				}
 				if (isset($commit['releases'])) {
 					foreach ($commit['releases'] as $release) {
-						$issueInfo[$issue]['planned'][$release] = TRUE;
+						if (isValidRelease($project, $release)) {
+							$issueInfo[$issue]['planned'][$release] = TRUE;
+						}
 					}
 				}
 			}
@@ -282,6 +377,31 @@ foreach ($projectsToCheck as $project => $projectData) {
 	$out .= "<table>\n";
 	$out .= "<tr>\n";
 	$out .= "<th>Release</th>\n";
+
+	// Prepare the per-release outputs
+	if ($projectData['perReleaseOutput']) {
+		foreach ($releasesToCheck as $releaseRange) {
+			$releaseName = $releaseRange[0];
+			if (isset($projectData['mapBranchReleaseFunction'])) {
+				$releaseName = $projectData['mapBranchReleaseFunction']($release[0]);
+			}
+			$outRelease[$releaseName] = '<html><head><title>Merged issues in releases</title><link rel="stylesheet" type="text/css" href="styles.css" /></head>';
+			$outRelease[$releaseName] .= "<body>\n";
+			$outRelease[$releaseName] .= "<h1>Issues merged into releases</h1>\n";
+			$outRelease[$releaseName] .= "<h2>$project, Release $releaseName</h2>\n";
+			$outRelease[$releaseName] .= "<table>\n";
+			$outRelease[$releaseName] .= "<tr>\n";
+			$outRelease[$releaseName] .= "<th>Issue</th>\n";
+			$outRelease[$releaseName] .= '<th class="release">' . $releaseName . "</th>\n";
+			$outRelease[$releaseName] .= '<th class="review">Reviews</th>';
+			if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
+				$outRelease[$releaseName] .= '<th class="components">Components</th>';
+			}
+			$outRelease[$releaseName] .= '<th class="desc">Description</th>';
+			$outRelease[$releaseName] .= "</tr>";
+		}
+	}
+
 	foreach ($releasesToCheck as $release) {
 		$releaseName = $release[0];
 		if (isset($projectData['mapBranchReleaseFunction'])) {
@@ -290,11 +410,25 @@ foreach ($projectsToCheck as $project => $projectData) {
 		$out .= sprintf('<th class="release">%s</th>', $releaseName);
 	}
 	$out .= '<th class="review">Reviews</th>';
+	if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
+		$out .= '<th class="components">Components</th>';
+	}
 	$out .= '<th class="desc">Description</th>';
 	$out .= "</tr>";
 
 	foreach ($issueInfo as $issueNumber => $issueData) {
-		$out .= "<tr>";
+		$components = array();
+		$subject = 'Unknown';
+		foreach ($releasesToCheck as $release) {
+			$releaseBranch = $release[2];
+			if (isset($issueData['solved'][$releaseBranch])) {
+				$subject = $issueData['solved'][$releaseBranch]['subject'];
+				if (isset($issueData['solved'][$releaseBranch]['components'])) {
+					$components = $issueData['solved'][$releaseBranch]['components'];
+					arsort($components);
+				}
+			}
+		}
 		$issueLink = '';
 		$reviewLink = '';
 		if (preg_match('/^#(\d+)/', $issueNumber, $match)) {
@@ -305,50 +439,54 @@ foreach ($projectsToCheck as $project => $projectData) {
 		}
 		$topic = substr($issueNumber, 1);
 		$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
-		$out .= sprintf('<td class="issue">%s</td>', $issueNumber);
-		$subject = '';
+
+		// Find out unique target releases (for new features):
+		$targetReleases = array();
+		if (isset($issueData['planned'])) {
+			foreach ($issueData['planned'] as $plannedRelease => $dummy) {
+				if (!isset($projectData['ignoreList'][$plannedRelease][$topic])) {
+					$targetReleases[$plannedRelease] = TRUE;
+				}
+			}
+		}
+		if (isset($issueData['solved'])) {
+			foreach ($issueData['solved'] as $solvedReleaseBranch => $solvedData) {
+				$solvedRelease = branchToRelease($project, $solvedReleaseBranch);
+				if (preg_match('/^' . $solvedRelease . '/', $solvedData['inRelease'])) {
+					// Only considered unique if solved in the "current release"
+					$targetReleases[$solvedRelease] = TRUE;
+				}
+			}
+		}
+		$uniqueNewFeatureRelease = FALSE;
+		if (count($targetReleases) == 1) {
+			// Unique to one release only
+			$targetReleasesKeys = array_keys($targetReleases);
+			$uniqueNewFeatureRelease = array_shift($targetReleasesKeys);
+		}
+
+		$outReleasesCells = '';
 		foreach ($releasesToCheck as $release) {
-			$releaseName = str_replace('-BP', '', $release[0]);
+			$releaseName = $release[0];
+			if (isset($projectData['mapBranchReleaseFunction'])) {
+				$releaseName = $projectData['mapBranchReleaseFunction']($releaseName);
+			}
 			// e.g. origin/TYPO3_4-5:
 			$releaseBranch = $release[2];
 			// e.g. TYPO3_4-5:
 			$branchName = substr($releaseBranch, 7);
 			$class = 'info-none';
 			$text = '';
-			if (isset($issueData['solved'][$releaseBranch])) {
-				$subject = $issueData['solved'][$releaseBranch]['subject'];
-			}
-			if (preg_match('/^backports\/(.*)/', $releaseBranch, $matches)) {
-				// Specific output for backport branches
-				$originalBranch = 'origin/' . $matches[1];
-				if (isset($issueData['solved'][$releaseBranch]) && isset($issueData['solved'][$originalBranch])) {
-					// merged in original *and* backports branch already
-					$class = 'info-solved';
-					$text = sprintf('<span title="Merged in both origin and backports of %s">ok</span>', $matches[1]);
-				} else if (isset($issueData['solved'][$releaseBranch]) && !isset($issueData['solved'][$originalBranch])) {
-					// merged only in the backports branch: This is a backport!!!
-					$class = 'info-solved';
-					$text = sprintf('<a title="Merged only on backports of %s (%s)" target="_blank" href="%s?a=commit;h=%s" target="_blank">BACKPORT</a>',
-						$matches[1],
-						$issueData['solved'][$releaseBranch]['date'],
-						$projectData['gitWebUrl'],
-						$issueData['solved'][$releaseBranch]['hash']
-					);
-				} elseif (isset($issueData['solved'][$originalBranch]) && !isset($issueData['solved'][$releaseBranch])) {
-					// merged only in the original branch: needs to cherry-pick still
-					$text = sprintf('<a title="Merged only on origin of %s (%s), needs cherry-pick" target="_blank" href="%s?a=commit;h=%s" target="_blank">TODO</a>',
-						$matches[1],
-						$issueData['solved'][$originalBranch]['date'],
-						$projectData['gitWebUrl'],
-						$issueData['solved'][$originalBranch]['hash']
-					);
-				}
+			if (isset($projectData['ignoreList'][$branchName][$topic])) {
+				// in case this issue + branch combination are on the ignore list, mark it appropriately
+				$class = 'info-not-needed';
+				$text = sprintf('<span title="%s" href="" target="_blank">given up</span>',
+					$projectData['ignoreList'][$branchName][$topic]
+				);
+
 			} else {
 				if (isset($issueData['solved'][$releaseBranch])) {
 					$class = 'info-solved';
-					if (isset($projectData['mapBranchReleaseFunction'])) {
-						$releaseName = $projectData['mapBranchReleaseFunction']($releaseName);
-					}
 					if ($issueData['solved'][$releaseBranch]['inRelease'] == 'next') {
 						$versionName = 'for next release';
 						$versionTag = 'next';
@@ -359,14 +497,35 @@ foreach ($projectsToCheck as $project => $projectData) {
 						$versionName = sprintf('in previous release (%s)', $issueData['solved'][$releaseBranch]['inRelease']);
 						$versionTag = 'previous';
 					}
-					$releaseName = $issueData['solved'][$releaseBranch]['inRelease'];
-					$text = sprintf('<a title="Merged on %s %s" target="_blank" href="%s?a=commit;h=%s" target="_blank">%s</a>',
+					$text = sprintf('<a title="Merged on %s %s" target="_blank" href="%s/commit/%s" target="_blank">%s</a>',
 						$issueData['solved'][$releaseBranch]['date'],
 						$versionName,
 						$projectData['gitWebUrl'],
 						$issueData['solved'][$releaseBranch]['hash'],
 						$versionTag
 					);
+					// Solved but later reverted?
+					if (is_array($issueData['solved'][$releaseBranch]['reverted'])) {
+						$class .= ' info-reverted';
+						$revertedInfos = $issueData['solved'][$releaseBranch]['reverted'];
+						if ($revertedInfos['inRelease'] == 'next') {
+							$versionName = 'for next release';
+							$versionTag = 'next';
+						} else if (preg_match('/^' . $releaseName . '/', $revertedInfos['inRelease'])) {
+							$versionName = 'for ' . $revertedInfos['inRelease'];
+							$versionTag = $revertedInfos['inRelease'];
+						} else {
+							$versionName = sprintf('in previous release (%s)', $revertedInfos['inRelease']);
+							$versionTag = 'previous';
+						}
+						$text .= '<br/>' . sprintf('<a title="Reverted on %s %s" target="_blank" href="%s/commit/%s" target="_blank">%s</a> (<abbr title="Reverted commit">rev</abbr>)',
+							$revertedInfos['date'],
+							$versionName,
+							$projectData['gitWebUrl'],
+							$revertedInfos['hash'],
+							$versionTag
+						);
+					}
 				} elseif (isset($issueData['planned']) && isset($issueData['planned'][$releaseName])) {
 					if (isset($gerritIssues[$branchName][$topic])) {
 						$class = 'info-planned info-planned-review';
@@ -378,28 +537,91 @@ foreach ($projectsToCheck as $project => $projectData) {
 					}
 				}
 			}
-			$out .= sprintf('<td class="%s" branch="%s" issue="%s">%s</td>', $class, $branchName, $topic, $text);
+			if ($uniqueNewFeatureRelease == $releaseName) {
+				$outReleasesCellUnique = sprintf('<td class="%s" branch="%s" issue="%s">%s</td>', $class, $branchName, $topic, $text);
+			}
+			$outReleasesCells .= sprintf('<td class="%s" branch="%s" issue="%s">%s</td>', $class, $branchName, $topic, $text);
 		}
-		$out .= '<td class="review">';
 		if ($reviewLink) {
-			$out .= sprintf('<a href="%s" target="_blank" title="Check review system for patches concerning this issue">Reviews</a>', $reviewLink);
+			$reviewLinkHtml = sprintf('<a href="%s" target="_blank" title="Check review system for patches concerning this issue">Reviews</a>', $reviewLink);
+		} else {
+			$reviewLinkHtml = '';
 		}
-		$out .= '</td>';
-		$out .= sprintf('<td class="description">%s</td>', htmlspecialchars($subject));
+		$newFeatureReleaseHtml = '';
+		if ($uniqueNewFeatureRelease) {
+			$newFeatureReleaseHtml = sprintf('<strong>[%s]</strong> ', $uniqueNewFeatureRelease);
+		}
+		if (strlen($subject) > 80) {
+			$subject = sprintf('<span title="%s">%s...</span>', htmlspecialchars($subject), htmlspecialchars(substr($subject, 0, 76)));
+		} else {
+			$subject = htmlspecialchars($subject);
+		}
+
+		$componentsHtml = '';
+		$componentsOthersHtml = '';
+		if (!empty($components)) {
+			$others = array();
+			foreach ($components as $componentName => $percent) {
+				if ($percent <= 10) {
+					$others[$componentName] = $percent;
+				} else {
+					$componentsHtml .= sprintf(' <span title="%s%%" class="component">%s</span>', $percent, $componentName);
+				}
+			}
+			if (!empty($others)) {
+				$othersList = '';
+				foreach ($others as $componentName => $percent) {
+					$othersList .= sprintf('%s (%s%%), ', $componentName, $percent);
+				}
+				$componentsHtml .= sprintf(' <span title="%s" class="component">others</span>', trim($othersList, ', '));
+			}
+		}
+
+		if ($projectData['perReleaseOutput']
+			&& $uniqueNewFeatureRelease
+		) {
+			$outRelease[$uniqueNewFeatureRelease] .= "<tr>";
+			$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="issue">%s</td>', $issueNumber);
+			$outRelease[$uniqueNewFeatureRelease] .= $outReleasesCellUnique;
+			$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="review">%s</td>', $reviewLinkHtml);
+			if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
+				$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="components">%s</td>', $componentsHtml);
+			}
+			$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="description">%s</td>', htmlspecialchars($subject));
+			$outRelease[$uniqueNewFeatureRelease] .= "</tr>\n";
+		}
+		$out .= "<tr>";
+		$out .= sprintf('<td class="issue">%s</td>', $issueNumber);
+		$out .= $outReleasesCells;
+		$out .= sprintf('<td class="review">%s</td>', $reviewLinkHtml);
+		if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
+			$out .= sprintf('<td class="components">%s</td>', $componentsHtml);
+		}
+		$out .= sprintf('<td class="description">%s%s</td>', $newFeatureReleaseHtml, htmlspecialchars($subject));
 		$out .= "</tr>\n";
 	}
 	$out .= "</table>";
 
 	$out .= '<p>Based on these GIT states:</p><ul>';
 	foreach ($lastHash as $release => $hash) {
-		$out .= sprintf('<li>%s: <a target="_blank" href="%s?a=commit;h=%s" target="_blank">%s</a>', $release, $projectData['gitWebUrl'], $hash, $hash);
+		$out .= sprintf('<li>%s: <a target="_blank" href="%s/commit/%s" target="_blank">%s</a>', $release, $projectData['gitWebUrl'], $hash, $hash);
 	}
 	$out .= '</ul>';
+
+	// Prepare the per-release outputs
+	if ($projectData['perReleaseOutput']) {
+		foreach ($outRelease as $releaseName => $outLines) {
+			$outLines .= "</body></html>";
+			$fh = fopen(sprintf($projectData['perReleaseOutput'], $releaseName), 'w');
+			fwrite($fh, $outLines);
+			fclose($fh);
+		}
+	}
 
 }
 
 date_default_timezone_set('Europe/Berlin');
-$out .= sprintf('<p>Generated on %s. Based on check-changes.php by <a href="mailto:ernst@cron-it.de">Ernesto Baschny</a>.</p>', strftime('%c', time()));
+$out .= sprintf('<p>Generated on %s. Based on check-changes.php by <a href="mailto:ernst@cron-it.de">Ernesto Baschny</a>, extended by <a href="mailto:karsten.dambekalns@typo3.org">Karsten Dambekalns</a> and <a href="mailto:mario.rimann@typo3.org">Mario Rimann</a></p>', strftime('%c', time()));
 
 // include JS stuff
 $out .= '<script src="jquery-1.7.2.min.js"></script>';

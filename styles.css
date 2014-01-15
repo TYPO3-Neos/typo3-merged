@@ -1,5 +1,5 @@
 body {
-	background: url(logo-typo3.gif) right top no-repeat;
+	background: url('typo3-200px-transparent.png') right top no-repeat;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: white;
 	padding: 0;
@@ -17,6 +17,11 @@ a {
 
 a:visited {
 	color: #DB7388;
+}
+
+.info-planned a:visited {
+	color: #BE0027;
+	font-weight: inherit;
 }
 
 a:hover {
@@ -88,17 +93,29 @@ th {
 	border-color: #FF8700;
 }
 
-td.info-planned, td.info-solved {
-	text-align: center;
+td.info-planned,
+td.info-solved,
+td.info-not-needed {
+	text-align: left;
+	padding-left: 10px;
+	white-space: nowrap;
 }
 td.info-planned {
 	font-weight:bold;
 	color: white;
 	background-color: red;
 }
+td.info-reverted {
+	background-color: #d7d7d7;
+}
 td.info-planned-review {
 	color: black;
 	background-color: yellow;
+}
+td.info-not-needed {
+    color: #fff;
+    background-color: #555;
+	font-weight: normal;
 }
 
 tr:hover {
