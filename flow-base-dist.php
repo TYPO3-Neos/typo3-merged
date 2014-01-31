@@ -56,6 +56,18 @@ $projectsToCheck = array(
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Fluid'),
 		),
 	),
+	'TYPO3.Eel' => array(
+		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Eel.git',
+		'releases' => array(
+			array('2.1', 'refs/tags/2.1.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
+			array('master', 'refs/tags/2.1.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Eel'),
+		),
+		'ignoreList' => array(
+			'2.1' => array(
+				'b39d7b96f4c5833a304cfc12c5dc7b3c5f53ec21' => 'Replaced by Ieaa3d21afe4c543b83ec381a094515186dda3c2b',
+			),
+		),
+	),
 	'TYPO3.Party' => array(
 		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Party.git',
 		'releases' => array(
