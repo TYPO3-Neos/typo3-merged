@@ -538,10 +538,6 @@ foreach ($projectsToCheck as $project => $projectData) {
 						);
 					}
 				} elseif (isset($issueData['planned']) && isset($issueData['planned'][$releaseName])) {
-					if ($topic === '370910e2556e867cfde08fa3c468846b259782fb') {
-						var_dump($branchName);
-						var_dump(array_keys($gerritIssues[$branchName]));
-					}
 					if (isset($gerritIssues[$branchName][$topic])) {
 						$class = 'info-planned info-planned-review';
 						$url = $gerritIssues[$branchName][$topic][0]['url'];
