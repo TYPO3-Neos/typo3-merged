@@ -107,7 +107,8 @@ $projectsToCheck = array(
 				'42961' => 'Not a bugfix, master only'
 			),
 			'2.1' => array(
-				'42961' => 'Not a bugfix, master only'
+				'42961' => 'Not a bugfix, master only',
+				'50118' => 'Not a bugfix, master only'
 			),
 			'master' => array(
 				'46053' => 'In master as for #40738',
