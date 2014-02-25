@@ -108,10 +108,12 @@ $projectsToCheck = array(
 			),
 			'2.1' => array(
 				'42961' => 'Not a bugfix, master only',
-				'50118' => 'Not a bugfix, master only'
+				'50118' => 'Not a bugfix, master only',
+				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840'
 			),
 			'master' => array(
 				'46053' => 'In master as for #40738',
+				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840'
 			),
 		),
 	),
