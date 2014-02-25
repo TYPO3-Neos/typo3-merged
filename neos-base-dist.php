@@ -25,6 +25,11 @@ $projectsToCheck = array(
 			array('1.0', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.Neos'),
 			array('master', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos'),
 		),
+		'ignoreList' => array(
+			'1.0' => array(
+				'989e33743da6dd93076dfcac957fa2376bd84054' => 'Wrong releases footer, came from 1.0'
+			),
+		),
 	),
 	'TYPO3.Neos.NodeTypes' => array(
 		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Neos.NodeTypes.git',
