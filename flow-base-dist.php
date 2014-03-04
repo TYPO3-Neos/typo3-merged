@@ -105,12 +105,14 @@ $projectsToCheck = array(
 				'50636' => 'Not applicable to 2.0',
 				'54453' => 'Not applicable to 2.0',
 				'42961' => 'Not a bugfix, master only',
-				'51676' => 'Change had side effects'
+				'51676' => 'Change had side effects',
+				'269a9e12aa5fbd50a90bd81c094fe2bc315b5222' => 'Not needed, base change was master only'
 			),
 			'2.1' => array(
 				'42961' => 'Not a bugfix, master only',
 				'50118' => 'Not a bugfix, master only',
-				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840'
+				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840',
+				'269a9e12aa5fbd50a90bd81c094fe2bc315b5222' => 'Not needed, base change was master only'
 			),
 			'master' => array(
 				'46053' => 'In master as for #40738',
