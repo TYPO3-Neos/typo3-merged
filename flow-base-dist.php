@@ -104,7 +104,8 @@ $projectsToCheck = array(
 				'51257' => 'Change not needed for 2.0',
 				'50636' => 'Not applicable to 2.0',
 				'54453' => 'Not applicable to 2.0',
-				'42961' => 'Not a bugfix, master only'
+				'42961' => 'Not a bugfix, master only',
+				'51676' => 'Change had side effects'
 			),
 			'2.1' => array(
 				'42961' => 'Not a bugfix, master only',
