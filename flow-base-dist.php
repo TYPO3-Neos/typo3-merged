@@ -19,6 +19,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1'),
 			array('2.0', 'refs/tags/1.0.0', 'origin/2.0', 'Flow-2.X'),
 			array('2.1', 'refs/tags/1.0.0', 'origin/2.1', 'Flow-2.X'),
+			array('2.2', 'refs/tags/1.0.0', 'origin/2.2', 'Flow-2.X'),
 			array('master', 'refs/tags/1.0.0', 'origin/master', 'Flow-master'),
 		),
 		// list of issues to be ignored as TODOs from a certain branch.
@@ -43,6 +44,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/FLOW3-1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1/Packages/Framework/TYPO3.FLOW3'),
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
 			array('2.1', 'refs/tags/FLOW3-1.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
+			array('2.2', 'refs/tags/FLOW3-1.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Flow'),
 		),
 		'ignoreList' => array(
@@ -127,6 +129,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/FLOW3-1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1/Packages/Framework/TYPO3.Fluid'),
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('2.1', 'refs/tags/FLOW3-1.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
+			array('2.2', 'refs/tags/FLOW3-1.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Fluid'),
 		),
 		'ignoreList' => array(
@@ -144,6 +147,7 @@ $projectsToCheck = array(
 		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Eel.git',
 		'releases' => array(
 			array('2.1', 'refs/tags/2.1.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
+			array('2.2', 'refs/tags/2.1.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
 			array('master', 'refs/tags/2.1.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Eel'),
 		),
 		'ignoreList' => array(
@@ -159,6 +163,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/FLOW3-1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1/Packages/Framework/TYPO3.Party'),
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
 			array('2.1', 'refs/tags/FLOW3-1.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
+			array('2.2', 'refs/tags/FLOW3-1.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Party'),
 		),
 		'ignoreList' => array(
@@ -181,6 +186,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/FLOW3-1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1/Packages/Framework/TYPO3.Kickstart'),
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
 			array('2.1', 'refs/tags/FLOW3-1.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
+			array('2.2', 'refs/tags/FLOW3-1.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Kickstart'),
 		),
 	),
@@ -191,6 +197,7 @@ $projectsToCheck = array(
 			array('1.1', 'refs/tags/FLOW3-1.0.0', 'origin/FLOW3-1.1', 'FLOW3-1.1/Packages/Framework/TYPO3.Welcome'),
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
 			array('2.1', 'refs/tags/FLOW3-1.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
+			array('2.2', 'refs/tags/FLOW3-1.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
 			array('master', 'refs/tags/FLOW3-1.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Welcome'),
 		),
 	),
