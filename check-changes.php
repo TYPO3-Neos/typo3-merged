@@ -84,8 +84,8 @@ function fetchGerritReviewRequests($project) {
 					$issueNumber = $item['topic'];
 					if (preg_match('/^issue\/(\d+)/', $issueNumber, $matches)) {
 						$issueNumber = $matches[1];
+            $issueNumbers = array($issueNumber);
 					}
-					$issueNumbers = array($issueNumber);
 				} else if (isset($item['trackingIds'])) {
 					$issueNumbers = array();
 					foreach ($item['trackingIds'] as $tracking) {
@@ -93,7 +93,9 @@ function fetchGerritReviewRequests($project) {
 							$issueNumbers[] = $tracking['id'];
 						}
 					}
-				} else {
+				}
+
+        if (!is_array($issueNumbers) || count($issueNumbers) === 0){
 					// use Change-Id
 					$issueNumbers = array(substr($item['id'], 1));
 				}
@@ -248,7 +250,9 @@ foreach ($projectsToCheck as $project => $projectData) {
 								$issue = preg_replace('/^(#[0-9]+).*$/', '$1', $issue);
 								if (intval($issue)) {
 									$issue = '#' . $issue;
-								}
+								} else {
+                  $issue = preg_replace('/^#?(.*)$/', '$1', $issue);
+                }
 								if (isset($issueMapping[$issue])) {
 									$issue = $issueMapping[$issue];
 								}
@@ -355,7 +359,11 @@ foreach ($projectsToCheck as $project => $projectData) {
 					'subject' => $commit['subject'],
 					'inRelease' => $commit['inRelease'],
 					'reverted' => $commit['reverted'],
+
 				);
+        if (isset($commit['changeId'])) {
+          $issueInfo[$issue]['solved'][$branch]['changeId'] = $commit['changeId'];
+        }
 				if (isset($commit['components'])) {
 					$issueInfo[$issue]['solved'][$branch]['components'] = $commit['components'];
 				}
@@ -426,6 +434,8 @@ foreach ($projectsToCheck as $project => $projectData) {
 	foreach ($issueInfo as $issueNumber => $issueData) {
 		$components = array();
 		$subject = 'Unknown';
+    $issueLink = '';
+    $reviewLink = '';
 		foreach ($releasesToCheck as $release) {
 			$releaseBranch = $release[2];
 			if (isset($issueData['solved'][$releaseBranch])) {
@@ -435,17 +445,22 @@ foreach ($projectsToCheck as $project => $projectData) {
 					arsort($components);
 				}
 			}
+
+      if (isset($issueData['solved'][$releaseBranch]['changeId'])) {
+        // reviewLink of latest release will win, ideally the changeIds are the same anyway.
+        $reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $issueData['solved'][$releaseBranch]['changeId']);
+      }
 		}
-		$issueLink = '';
-		$reviewLink = '';
-		if (preg_match('/^#(\d+)/', $issueNumber, $match)) {
+
+		if (preg_match('/^#?(\d+)/', $issueNumber, $match)) {
 			$issueLink = sprintf('http://forge.typo3.org/issues/%s', $match[1]);
 			$reviewLink = sprintf($reviewLinkPattern, $match[1]);
-		} elseif (preg_match('/^#M(\d+)/', $issueNumber, $match)) {
-			$issueLink = sprintf('http://bugs.typo3.org/view.php?id=%s', $match[1]);
-		} elseif (preg_match('/^(I[0-9a-f]+)/', $issueNumber, $match)) {
+		} elseif (preg_match('/^[0-9A-Z]+[_-]+\d+$/', $issueNumber, $match)) {
+			$issueLink = sprintf('https://jira.typo3.org/browse/%s', $match[0]);
+		} elseif (preg_match('/^(I[0-9a-f]{40})/', $issueNumber, $match)) {
 			$reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $match[1]);
 		}
+
 		$topic = substr($issueNumber, 1);
 		if (!empty($issueLink)) {
     		$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
