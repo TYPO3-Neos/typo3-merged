@@ -72,6 +72,14 @@ $projectsToCheck = array(
 			array('1.1', '4766bdd615b63bcefc8d2862738e33a2b3313448', 'origin/1.1', 'Neos-1.1/Packages/Sites/TYPO3.NeosDemoTypo3Org'),
 			array('master', '4766bdd615b63bcefc8d2862738e33a2b3313448', 'origin/master', 'Neos-master/Packages/Sites/TYPO3.NeosDemoTypo3Org'),
 		),
+	),
+	'TYPO3.Media' => array(
+		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Media.git',
+		'releases' => array(
+			array('1.0', '70290a04f07329ccb725181c6d7e028e0aeac483', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.Media'),
+			array('1.1', '3189fc5ec371b46c012443b0c5cb49c225c76b1e', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Media'),
+			array('master', '70290a04f07329ccb725181c6d7e028e0aeac483', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Media'),
+		),
 	)
 );
 
