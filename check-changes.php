@@ -251,8 +251,8 @@ foreach ($projectsToCheck as $project => $projectData) {
 								if (intval($issue)) {
 									$issue = '#' . $issue;
 								} else {
-                  $issue = preg_replace('/^#?(.*)$/', '$1', $issue);
-                }
+									$issue = preg_replace('/^#?(.*)$/', '$1', $issue);
+								}
 								if (isset($issueMapping[$issue])) {
 									$issue = $issueMapping[$issue];
 								}
@@ -341,8 +341,8 @@ foreach ($projectsToCheck as $project => $projectData) {
 			    if (isset($commit['changeId'])) {
 				    $commit['issues'] = array($commit['changeId']);
 				} else {
-    				continue;
-    			}
+					continue;
+				}
 			}
 			foreach ($commit['issues'] as $issue) {
 				$thisDate = strtotime($commit['date']);
@@ -361,9 +361,9 @@ foreach ($projectsToCheck as $project => $projectData) {
 					'reverted' => $commit['reverted'],
 
 				);
-        if (isset($commit['changeId'])) {
-          $issueInfo[$issue]['solved'][$branch]['changeId'] = $commit['changeId'];
-        }
+				if (isset($commit['changeId'])) {
+					$issueInfo[$issue]['solved'][$branch]['changeId'] = $commit['changeId'];
+				}
 				if (isset($commit['components'])) {
 					$issueInfo[$issue]['solved'][$branch]['components'] = $commit['components'];
 				}
@@ -434,8 +434,8 @@ foreach ($projectsToCheck as $project => $projectData) {
 	foreach ($issueInfo as $issueNumber => $issueData) {
 		$components = array();
 		$subject = 'Unknown';
-    $issueLink = '';
-    $reviewLink = '';
+		$issueLink = '';
+		$reviewLink = '';
 		foreach ($releasesToCheck as $release) {
 			$releaseBranch = $release[2];
 			if (isset($issueData['solved'][$releaseBranch])) {
@@ -446,10 +446,10 @@ foreach ($projectsToCheck as $project => $projectData) {
 				}
 			}
 
-      if (isset($issueData['solved'][$releaseBranch]['changeId'])) {
-        // reviewLink of latest release will win, ideally the changeIds are the same anyway.
-        $reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $issueData['solved'][$releaseBranch]['changeId']);
-      }
+			if (isset($issueData['solved'][$releaseBranch]['changeId'])) {
+				// reviewLink of latest release will win, ideally the changeIds are the same anyway.
+				$reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $issueData['solved'][$releaseBranch]['changeId']);
+			}
 		}
 
 		if (preg_match('/^#?(\d+)/', $issueNumber, $match)) {
@@ -463,8 +463,8 @@ foreach ($projectsToCheck as $project => $projectData) {
 
 		$topic = substr($issueNumber, 1);
 		if (!empty($issueLink)) {
-    		$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
-    	}
+			$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
+		}
 
 		// Find out unique target releases (for new features):
 		$targetReleases = array();
