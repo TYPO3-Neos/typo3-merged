@@ -58,7 +58,7 @@ $projectsToCheck = array(
 		),
 		'ignoreList' => array(
 			'1.0' => array(
-				'I99acc1142eeaac82f443f5efa1512feb7766ed1f' => 'Wrong releases footer, does not apply to 1.0
+				'I99acc1142eeaac82f443f5efa1512feb7766ed1f' => 'Wrong releases footer, does not apply to 1.0'
 			),
 		),
 	),
