@@ -56,6 +56,11 @@ $projectsToCheck = array(
 			array('1.1', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TYPO3CR'),
 			array('master', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TYPO3CR'),
 		),
+		'ignoreList' => array(
+			'1.0' => array(
+				'I99acc1142eeaac82f443f5efa1512feb7766ed1f' => 'Wrong releases footer, does not apply to 1.0
+			),
+		),
 	),
 	'TYPO3.TypoScript' => array(
 		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.TypoScript.git',
