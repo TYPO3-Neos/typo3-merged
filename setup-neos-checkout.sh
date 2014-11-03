@@ -20,3 +20,7 @@ fi
 if [ ! -d "Neos-1.1" ]; then
     cp -Ra Neos-master Neos-1.1
 fi
+
+if [ ! -d "Neos-1.2" ]; then
+    cp -Ra Neos-master Neos-1.2
+fi
