@@ -58,7 +58,7 @@ $projectsToCheck = array(
 		'releases' => array(
 			array('1.0', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.TYPO3CR'),
 			array('1.1', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TYPO3CR'),
-			array('1.2', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TYPO3CR')
+			array('1.2', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TYPO3CR'),
 			array('master', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TYPO3CR'),
 		),
 		'ignoreList' => array(
