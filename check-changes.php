@@ -95,7 +95,7 @@ function fetchGerritReviewRequests($project) {
 					}
 				}
 
-        if (!is_array($issueNumbers) || count($issueNumbers) === 0){
+        if (!isset($issueNumbers) || !is_array($issueNumbers) || count($issueNumbers) === 0){
 					// use Change-Id
 					$issueNumbers = array(substr($item['id'], 1));
 				}
