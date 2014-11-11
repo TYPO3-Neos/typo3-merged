@@ -1,7 +1,7 @@
 <?php
 // configuration for TYPO3 core
 
-$gitRoot = '/www/shared/TYPO3core/';
+$gitRoot = getcwd() . '/data/TYPO3core/';
 $gitRootIsWorkingCopy = TRUE;
 $htmlFile = 'core.html';
 
@@ -39,7 +39,8 @@ $projectsToCheck = array(
 				array('4.7', 'refs/tags/TYPO3_4-5-0', 'origin/TYPO3_4-7', 'TYPO3_4-7'),
 				array('6.0', 'refs/tags/TYPO3_4-5-0', 'origin/TYPO3_6-0', 'TYPO3_6-0'),
 				array('6.1', 'refs/tags/TYPO3_4-5-0', 'origin/TYPO3_6-1', 'TYPO3_6-1'),
-				array('6.2', 'refs/tags/TYPO3_4-5-0', 'origin/master', 'TYPO3_6-2'),
+				array('6.2', 'refs/tags/TYPO3_4-5-0', 'origin/TYPO3_6-2', 'TYPO3_6-2'),
+				array('6.3', 'refs/tags/TYPO3_4-5-0', 'origin/master', 'TYPO3_6-3'),
 		),
 		// list of issues to be ignored as TODOs from a certain branch.
 		// Used to shorten the list of issues that are marked "TODO"
@@ -92,6 +93,7 @@ $projectsToCheck = array(
 				'35791' => 'The unit-tests are not available in 4.5',
 				'39876' => 'Discussed in the team to remove this one in',
 				'43540' => 'Was reverted on 6.1',
+				'30244' => 'Will not be backported to 4.5 and 6.0',
 			),
 			'TYPO3_4-6' => array(
 				'25100' => 'It was decided to not backport this to 4.6 at the end of the version\'s lifetime',
@@ -144,6 +146,7 @@ $projectsToCheck = array(
 				'42724' => 'Merged under another ticket for 6.0',
 				'43540' => 'Was reverted on 6.1',
 				'53594' => 'Code not present in 6.1, 6.0',
+				'30244' => 'Will not be backported to 4.5 and 6.0',
 			),
 			'TYPO3_6-1' => array(
 				'53594' => 'Code not present in 6.1, 6.0',
@@ -172,7 +175,7 @@ function getDetectedReleaseCommitCallback($commitInfos) {
  * @param $path
  */
 function extractComponentNameFromPathByBranchCMS($release, $path) {
-	if ($release == '6.2' && preg_match('#^typo3/sysext/(.*?)/#', $path, $matches)) {
+	if (($release == '6.2' || $release == '6.3') && preg_match('#^typo3/sysext/(.*?)/#', $path, $matches)) {
 		$component = $matches[1];
 		if ($component == 'extensionmanager') {
 			// Shortify
