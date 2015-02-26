@@ -613,7 +613,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 			if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
 				$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="components">%s</td>', $componentsHtml);
 			}
-			$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="description">%s</td>', htmlspecialchars($subject));
+			$outRelease[$uniqueNewFeatureRelease] .= sprintf('<td class="description">%s</td>', $subject);
 			$outRelease[$uniqueNewFeatureRelease] .= "</tr>\n";
 		}
 		$out .= "<tr>";
@@ -623,7 +623,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 		if (isset($projectData['extractComponentNameFromPathByBranchCallback'])) {
 			$out .= sprintf('<td class="components">%s</td>', $componentsHtml);
 		}
-		$out .= sprintf('<td class="description">%s%s</td>', $newFeatureReleaseHtml, htmlspecialchars($subject));
+		$out .= sprintf('<td class="description">%s%s</td>', $newFeatureReleaseHtml, $subject);
 		$out .= "</tr>\n";
 	}
 	$out .= "</table>";
