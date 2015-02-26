@@ -96,7 +96,6 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
-			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Party'),
 		),
 		'ignoreList' => array(
 			'2.0' => array(
