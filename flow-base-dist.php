@@ -19,6 +19,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X'),
+			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master'),
 		),
 		// list of issues to be ignored as TODOs from a certain branch.
@@ -37,6 +38,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
+			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Flow'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Flow'),
 		),
 		'ignoreList' => array(
@@ -68,6 +70,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
+			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Fluid'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Fluid'),
 		),
 	),
@@ -77,6 +80,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.1.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
 			array('2.2', 'refs/tags/2.1.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
 			array('2.3', 'refs/tags/2.1.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
+			array('3.0', 'refs/tags/2.1.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Eel'),
 			array('master', 'refs/tags/2.1.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Eel'),
 		),
 		'ignoreList' => array(
@@ -107,6 +111,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
+			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Kickstart'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Kickstart'),
 		),
 	),
@@ -117,6 +122,7 @@ $projectsToCheck = array(
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
 			array('2.2', 'refs/tags/2.0.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
+			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Welcome'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Welcome'),
 		),
 	),
