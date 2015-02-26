@@ -12,7 +12,7 @@ fi
 
 if [ ! -d "Flow-2.X" ]; then
     cp -Ra Flow-master Flow-2.X
-    cd Flow-2.x
+    cd Flow-2.X
     git checkout -b 2.0 origin/2.0
     git branch -D master
     cd Packages/Framework
@@ -24,7 +24,7 @@ fi
 
 if [ ! -d "Flow-3.X" ]; then
     cp -Ra Flow-master Flow-3.X
-    cd Flow-3.x
+    cd Flow-3.X
     git checkout -b 3.0 origin/3.0
     git branch -D master
     cd Packages/Framework
