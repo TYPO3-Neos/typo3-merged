@@ -292,7 +292,7 @@ foreach ($projectsToCheck as $project => $projectData) {
 				}
 				$commits[$branch][] = $commitInfos;
 				if ($revertCommit != '') {
-					// Remember this commit which revertes some commit that is yet to come
+					// Remember this commit which reverted some commit that is yet to come
 					$revertedCommits[$revertCommit] = $commitInfos;
 				}
 				$commitInfos = array();
@@ -452,16 +452,17 @@ foreach ($projectsToCheck as $project => $projectData) {
 			}
 		}
 
+		$topic = $issueNumber;
 		if (preg_match('/^#?(\d+)/', $issueNumber, $match)) {
 			$issueLink = sprintf('http://forge.typo3.org/issues/%s', $match[1]);
 			$reviewLink = sprintf($reviewLinkPattern, $match[1]);
+			$topic = ltrim($issueNumber, '#');
 		} elseif (preg_match('/^[0-9A-Z]+[_-]+\d+$/', $issueNumber, $match)) {
 			$issueLink = sprintf('https://jira.typo3.org/browse/%s', $match[0]);
 		} elseif (preg_match('/^(I[0-9a-f]{40})/', $issueNumber, $match)) {
 			$reviewLink = sprintf('https://review.typo3.org/#/q/%s,n,z', $match[1]);
 		}
 
-		$topic = substr($issueNumber, 1);
 		if (!empty($issueLink)) {
 			$issueNumber = sprintf('<a href="%s" target="_blank">%s</a>', $issueLink, $issueNumber);
 		}
