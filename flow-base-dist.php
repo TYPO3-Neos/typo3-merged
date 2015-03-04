@@ -59,7 +59,8 @@ $projectsToCheck = array(
 			),
 			'master' => array(
 				'46053' => 'In master as for #40738',
-				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840'
+				'33621' => 'No longer needed, remaining changes in https://review.typo3.org/27840',
+				'59404' => 'In master this was fixed with the flexible body parsing feature'
 			),
 		),
 	),
@@ -72,6 +73,11 @@ $projectsToCheck = array(
 			array('2.3', 'refs/tags/2.0.0', 'origin/2.3', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('3.0', 'refs/tags/2.0.0', 'origin/3.0', 'Flow-3.X/Packages/Framework/TYPO3.Fluid'),
 			array('master', 'refs/tags/2.0.0', 'origin/master', 'Flow-master/Packages/Framework/TYPO3.Fluid'),
+		),
+		'ignoreList' => array(
+			'2.3' => array(
+				'If8496da56509ac0f2503a9a7be8649eb44b65816' => 'Not applicable to 2.3'
+			),
 		),
 	),
 	'TYPO3.Eel' => array(
