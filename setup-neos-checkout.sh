@@ -1,16 +1,20 @@
+#!/usr/bin/env bash
 if [ ! -d "Neos-master" ]; then
     git clone git://git.typo3.org/Neos/Distributions/Base.git Neos-master
-    rm -f composer.phar
-    curl -s http://getcomposer.org/installer | php
-    cd Neos-master
-    php ../composer.phar --no-interaction install --dev --prefer-source
-    
-    # WORKAROUND: Site kickstarter not inside base distribution currently
-    cd Packages/Application/
+    mkdir -p Neos-master/Packages/Application
+    cd Neos-master/Packages/Application
+    git clone git://git.typo3.org/Packages/TYPO3.Neos.git
+    git clone git://git.typo3.org/Packages/TYPO3.Neos.NodeTypes.git
     git clone git://git.typo3.org/Packages/TYPO3.SiteKickstarter.git
-    cd ../../
-    
-    cd ..
+    git clone git://git.typo3.org/Packages/TYPO3.TYPO3CR.git
+    git clone git://git.typo3.org/Packages/TYPO3.TypoScript.git
+    git clone git://git.typo3.org/Packages/TYPO3.Media.git
+    cd ../../..
+
+    mkdir -p Neos-master/Packages/Sites
+    cd Neos-master/Packages/Sites
+    git clone git://git.typo3.org/Packages/NeosDemoTypo3Org.git TYPO3.NeosDemoTypo3Org
+    cd ../../..
 fi
 
 if [ ! -d "Neos-1.0" ]; then
