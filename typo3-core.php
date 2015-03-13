@@ -87,7 +87,17 @@ $projectsToCheck = array(
 				'39876' => 'Discussed in the team to remove this one in',
 				'43540' => 'Was reverted on 6.1',
 				'30244' => 'Will not be backported to 4.5 and 6.0',
+				'61943' => 'Will not be backported to 4.5, see comment in Gerrit',
 			),
+			'TYPO3_6-2' => array(
+				'34728' => 'Reverted backport. Is already merged with #37167',
+				'35093' => 'Reverted backport. Is already merged with #37167',
+				'64618' => 'Patch is not relevant for 6.2 (found out after merging)',
+				'54410' => 'Will not be backported to 6.2, see comment in Gerrit #35750',
+				'59947' => 'Abandoned for 6.2, see comment in Gerrit',
+				'59255' => 'Original patch was reverted.',
+				'63648' => 'Abandoned for 6.2, see comment in Gerrit',
+			)
 		),
 	),
 );
