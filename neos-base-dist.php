@@ -41,6 +41,16 @@ $projectsToCheck = array(
 				'Id7baa52bd72cf6e53d4ba8dee9cad8f54979aa40' => 'Not fixing for 1.0 anymore',
 				'I78ee51099beef563c56c242bc3b2e6ce10efd4f7' => 'Not fixing for 1.0 anymore'
 			),
+			'1.1' => array(
+				'Iee3fc9449616e86f9f5506d79937b7c7a31103cf' => 'Not needed anymore'
+			),
+			'1.2' => array(
+				'I7065efe91a8a34a4153395a2d7b72072b75b758b' => 'Wrongly targeted for 1.2',
+				'I3bf59d5cd07fec2a8981ef486c57982136fd9f15' => 'Included via master already'
+			),
+			'master' => array(
+				'I4bd746d8c8ba22db141c628365c5c0eda6851513' => 'Merged directly into git'
+			),
 		),
 	),
 	'TYPO3.Neos.NodeTypes' => array(
