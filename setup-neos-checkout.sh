@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 if [ ! -d "Neos-master" ]; then
-    git clone git://git.typo3.org/Neos/Distributions/Base.git Neos-master
+    git clone git@github.com:neos/neos-base-distribution.git Neos-master
     mkdir -p Neos-master/Packages/Application
     cd Neos-master/Packages/Application
-    git clone git://git.typo3.org/Packages/TYPO3.Neos.git
-    git clone git://git.typo3.org/Packages/TYPO3.Neos.NodeTypes.git
-    git clone git://git.typo3.org/Packages/TYPO3.SiteKickstarter.git
-    git clone git://git.typo3.org/Packages/TYPO3.TYPO3CR.git
-    git clone git://git.typo3.org/Packages/TYPO3.TypoScript.git
-    git clone git://git.typo3.org/Packages/TYPO3.Media.git
+    git clone git@github.com:neos/neos.git TYPO3.Neos
+    git clone git@github.com:neos/neos-nodetypes.git TYPO3.Neos.NodeTypes
+    git clone git@github.com:neos/neos-kickstarter.git TYPO3.Neos.Kickstarter
+    git clone git@github.com:neos/typo3cr.git TYPO3.TYPO3CR
+    git clone git@github.com:neos/typoscript.git TYPO3.TypoScript
+    git clone git@github.com:neos/media.git TYPO3.Media
     cd ../../..
 
     mkdir -p Neos-master/Packages/Sites
     cd Neos-master/Packages/Sites
-    git clone git://git.typo3.org/Packages/NeosDemoTypo3Org.git TYPO3.NeosDemoTypo3Org
+    git clone git@github.com:neos/neosdemotypo3org.git TYPO3.NeosDemoTypo3Org
     cd ../../..
 fi
 
