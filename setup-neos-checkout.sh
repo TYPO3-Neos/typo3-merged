@@ -17,10 +17,6 @@ if [ ! -d "Neos-master" ]; then
     cd ../../..
 fi
 
-if [ ! -d "Neos-1.0" ]; then
-    cp -Ra Neos-master Neos-1.0
-fi
-
 if [ ! -d "Neos-1.1" ]; then
     cp -Ra Neos-master Neos-1.1
 fi
