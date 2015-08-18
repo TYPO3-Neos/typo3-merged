@@ -12,7 +12,7 @@ $issueMapping = array();
 
 $projectsToCheck = array(
 	'Neos Base Distribution' => array(
-		'gitWebUrl' => 'https://git.typo3.org/Neos/Distributions/Base.git',
+		'gitWebUrl' => 'https://github.com/neos/neos-base-distribution',
 		'releases' => array(
 				# project, starting point, branch, working copy path
 			array('1.0', 'refs/tags/1.0.0', 'origin/1.0', 'Neos-1.0'),
@@ -23,7 +23,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Neos' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Neos.git',
+		'gitWebUrl' => 'https://github.com/neos/neos',
 		'releases' => array(
 			array('1.0', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.Neos'),
 			array('1.1', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos'),
@@ -56,7 +56,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Neos.NodeTypes' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Neos.NodeTypes.git',
+		'gitWebUrl' => 'https://github.com/neos/neos-nodetypes',
 		'releases' => array(
 			array('1.0', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.Neos.NodeTypes'),
 			array('1.1', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos.NodeTypes'),
@@ -71,7 +71,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.SiteKickstarter' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.SiteKickstarter.git',
+		'gitWebUrl' => 'https://github.com/neos/neos-kickstarter',
 		'releases' => array(
 			array('1.0', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.SiteKickstarter'),
 			array('1.1', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.SiteKickstarter'),
@@ -81,7 +81,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.TYPO3CR' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.TYPO3CR.git',
+		'gitWebUrl' => 'https://github.com/neos/typo3cr',
 		'releases' => array(
 			array('1.0', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.TYPO3CR'),
 			array('1.1', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TYPO3CR'),
@@ -101,7 +101,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.TypoScript' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.TypoScript.git',
+		'gitWebUrl' => 'https://github.com/neos/typoscript',
 		'releases' => array(
 			array('1.0', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.TypoScript'),
 			array('1.1', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TypoScript'),
@@ -116,7 +116,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.NeosDemoTypo3Org' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/NeosDemoTypo3Org.git',
+		'gitWebUrl' => 'https://github.com/neos/ndoesdemotypo3org',
 		'releases' => array(
 			array('1.0', '4766bdd615b63bcefc8d2862738e33a2b3313448', 'origin/1.0', 'Neos-1.0/Packages/Sites/TYPO3.NeosDemoTypo3Org'),
 			array('1.1', '4766bdd615b63bcefc8d2862738e33a2b3313448', 'origin/1.1', 'Neos-1.1/Packages/Sites/TYPO3.NeosDemoTypo3Org'),
@@ -126,7 +126,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Media' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Media.git',
+		'gitWebUrl' => 'https://github.com/neos/media',
 		'releases' => array(
 			array('1.0', '70290a04f07329ccb725181c6d7e028e0aeac483', 'origin/1.0', 'Neos-1.0/Packages/Application/TYPO3.Media'),
 			array('1.1', '3189fc5ec371b46c012443b0c5cb49c225c76b1e', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Media'),

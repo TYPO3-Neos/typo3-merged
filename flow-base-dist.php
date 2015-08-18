@@ -11,8 +11,8 @@ $reviewLinkPattern = "https://review.typo3.org/#/q/tr:%s,n,z";
 $issueMapping = array();
 
 $projectsToCheck = array(
-	'TYPO3 Flow Base Dist' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Flow/Distributions/Base.git',
+	'Flow Base Dist' => array(
+		'gitWebUrl' => 'https://github.com/neos/flow-base-distribution',
 		'releases' => array(
 				# project, starting point, branch, working copy path
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X'),
@@ -32,7 +32,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Flow' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Flow.git',
+		'gitWebUrl' => 'https://github.com/neos/flow',
 		'releases' => array(
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Flow'),
@@ -65,7 +65,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Fluid' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Fluid.git',
+		'gitWebUrl' => 'https://github.com/neos/fluid',
 		'releases' => array(
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Fluid'),
@@ -81,7 +81,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Eel' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Eel.git',
+		'gitWebUrl' => 'https://github.com/neos/eel',
 		'releases' => array(
 			array('2.1', 'refs/tags/2.1.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
 			array('2.2', 'refs/tags/2.1.0', 'origin/2.2', 'Flow-2.X/Packages/Framework/TYPO3.Eel'),
@@ -96,7 +96,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Party' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Party.git',
+		'gitWebUrl' => 'https://github.com/neos/party',
 		'releases' => array(
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Party'),
@@ -110,7 +110,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Kickstart' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Kickstart.git',
+		'gitWebUrl' => 'https://github.com/neos/kickstart',
 		'releases' => array(
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Kickstart'),
@@ -121,7 +121,7 @@ $projectsToCheck = array(
 		),
 	),
 	'TYPO3.Welcome' => array(
-		'gitWebUrl' => 'http://git.typo3.org/Packages/TYPO3.Welcome.git',
+		'gitWebUrl' => 'https://github.com/neos/flow-welcome',
 		'releases' => array(
 			array('2.0', 'refs/tags/FLOW3-1.0.0', 'origin/2.0', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
 			array('2.1', 'refs/tags/2.0.0', 'origin/2.1', 'Flow-2.X/Packages/Framework/TYPO3.Welcome'),
