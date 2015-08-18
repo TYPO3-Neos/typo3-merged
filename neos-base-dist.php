@@ -24,10 +24,10 @@ $projectsToCheck = array(
 	'TYPO3.Neos' => array(
 		'gitWebUrl' => 'https://github.com/neos/neos',
 		'releases' => array(
-			array('1.1', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos'),
-			array('1.2', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Neos'),
-			array('2.0', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Neos'),
-			array('master', 'bf492f9fe207a490a068390a2af270cb2332c835', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos'),
+			array('1.1', '30ce38da4c274e6ae9aa87afd920bab42aeb3c78', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos'),
+			array('1.2', '30ce38da4c274e6ae9aa87afd920bab42aeb3c78', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Neos'),
+			array('2.0', '30ce38da4c274e6ae9aa87afd920bab42aeb3c78', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Neos'),
+			array('master', '30ce38da4c274e6ae9aa87afd920bab42aeb3c78', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos'),
 		),
 		'ignoreList' => array(
 			'1.1' => array(
@@ -45,30 +45,30 @@ $projectsToCheck = array(
 	'TYPO3.Neos.NodeTypes' => array(
 		'gitWebUrl' => 'https://github.com/neos/neos-nodetypes',
 		'releases' => array(
-			array('1.1', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos.NodeTypes'),
-			array('1.2', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Neos.NodeTypes'),
-			array('2.0', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Neos.NodeTypes'),
-			array('master', 'b3c147d2c17309fde9e36a09a72f70782248f9e2', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos.NodeTypes'),
+			array('1.1', 'd10f336a3afec23aa67ac72c798573a8dcd89980', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos.NodeTypes'),
+			array('1.2', 'd10f336a3afec23aa67ac72c798573a8dcd89980', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Neos.NodeTypes'),
+			array('2.0', 'd10f336a3afec23aa67ac72c798573a8dcd89980', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Neos.NodeTypes'),
+			array('master', 'd10f336a3afec23aa67ac72c798573a8dcd89980', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos.NodeTypes'),
 		),
 		'ignoreList' => array(
 		),
 	),
-	'TYPO3.SiteKickstarter' => array(
+	'TYPO3.Neos.Kickstarter' => array(
 		'gitWebUrl' => 'https://github.com/neos/neos-kickstarter',
 		'releases' => array(
-			array('1.1', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.SiteKickstarter'),
-			array('1.2', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.SiteKickstarter'),
-			array('2.0', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.SiteKickstarter'),
-			array('master', 'ac71f441e74dc3c5ee8a17480a5c3c96ba21b684', 'origin/master', 'Neos-master/Packages/Application/TYPO3.SiteKickstarter'),
+			array('1.1', '52e277659cbe24c12d30851d631cecca57c8009b', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Neos.Kickstarter'),
+			array('1.2', '52e277659cbe24c12d30851d631cecca57c8009b', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Neos.Kickstarter'),
+			array('2.0', '52e277659cbe24c12d30851d631cecca57c8009b', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Neos.Kickstarter'),
+			array('master', '52e277659cbe24c12d30851d631cecca57c8009b', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Neos.Kickstarter'),
 		),
 	),
 	'TYPO3.TYPO3CR' => array(
 		'gitWebUrl' => 'https://github.com/neos/typo3cr',
 		'releases' => array(
-			array('1.1', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TYPO3CR'),
-			array('1.2', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TYPO3CR'),
-			array('2.0', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.TYPO3CR'),
-			array('master', '444707e6176e23e67ce40f7d396b0d2229799411', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TYPO3CR'),
+			array('1.1', '4a808b8c389494f14af4c7648c185159946ae77e', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TYPO3CR'),
+			array('1.2', '4a808b8c389494f14af4c7648c185159946ae77e', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TYPO3CR'),
+			array('2.0', '4a808b8c389494f14af4c7648c185159946ae77e', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.TYPO3CR'),
+			array('master', '4a808b8c389494f14af4c7648c185159946ae77e', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TYPO3CR'),
 		),
 		'ignoreList' => array(
 		),
@@ -76,10 +76,10 @@ $projectsToCheck = array(
 	'TYPO3.TypoScript' => array(
 		'gitWebUrl' => 'https://github.com/neos/typoscript',
 		'releases' => array(
-			array('1.1', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TypoScript'),
-			array('1.2', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TypoScript'),
-			array('2.0', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.TypoScript'),
-			array('master', '681aa987a62d555b77d8398f38cc6280cb0c5fd6', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TypoScript'),
+			array('1.1', '797bd005a9d98eaebbb9eb59a57b66c00d30accc', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.TypoScript'),
+			array('1.2', '797bd005a9d98eaebbb9eb59a57b66c00d30accc', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.TypoScript'),
+			array('2.0', '797bd005a9d98eaebbb9eb59a57b66c00d30accc', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.TypoScript'),
+			array('master', '797bd005a9d98eaebbb9eb59a57b66c00d30accc', 'origin/master', 'Neos-master/Packages/Application/TYPO3.TypoScript'),
 		),
 		'ignoreList' => array(
 		),
@@ -96,10 +96,10 @@ $projectsToCheck = array(
 	'TYPO3.Media' => array(
 		'gitWebUrl' => 'https://github.com/neos/media',
 		'releases' => array(
-			array('1.1', '3189fc5ec371b46c012443b0c5cb49c225c76b1e', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Media'),
-			array('1.2', '3189fc5ec371b46c012443b0c5cb49c225c76b1e', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Media'),
-			array('2.0', '3189fc5ec371b46c012443b0c5cb49c225c76b1e', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Media'),
-			array('master', '70290a04f07329ccb725181c6d7e028e0aeac483', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Media'),
+			array('1.1', 'fc1e1164a38697a091c800bdb05c949bc975b669', 'origin/1.1', 'Neos-1.1/Packages/Application/TYPO3.Media'),
+			array('1.2', 'fc1e1164a38697a091c800bdb05c949bc975b669', 'origin/1.2', 'Neos-1.2/Packages/Application/TYPO3.Media'),
+			array('2.0', 'fc1e1164a38697a091c800bdb05c949bc975b669', 'origin/2.0', 'Neos-2.0/Packages/Application/TYPO3.Media'),
+			array('master', 'fc1e1164a38697a091c800bdb05c949bc975b669', 'origin/master', 'Neos-master/Packages/Application/TYPO3.Media'),
 		),
 		'ignoreList' => array(
 		),
